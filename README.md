@@ -26,7 +26,7 @@ Options:
   -p, --password <char>  password for an admin pocketbase user. Use this with the --url option
   -o, --out <char>       path to save the typescript output file (default: "pocketbase-types.ts")
   --no-sdk               remove the pocketbase package dependency. A typed version of the SDK will not be generated.
-  -e, --env [path]       flag to use environment variables for configuration. Add PB_TYPEGEN_URL, PB_TYPEGEN_EMAIL, PB_TYPEGEN_PASSWORD to your .env file. Optionally provide a path to your .env file
+  --env [path]           flag to use environment variables for configuration. Add PB_TYPEGEN_URL, PB_TYPEGEN_EMAIL, PB_TYPEGEN_PASSWORD to your .env file. Optionally provide a path to your .env file
   -h, --help             display help for command
 ```
 
@@ -125,4 +125,4 @@ result.expand?.user.username
 
 ## Status
 
-![](https://github.com/patmood/pocketbase-typegen/actions/workflows/test.yml/badge.svg?branch=main) ![](https://github.com/patmood/pocketbase-typegen/actions/workflows/integration.yml/badge.svg?branch=main)
+![](https://github.com/YouFoundAlpha/pocketbase-typegen/actions/workflows/test.yml/badge.svg?branch=main) ![](https://github.com/YouFoundAlpha/pocketbase-typegen/actions/workflows/integration.yml/badge.svg?branch=main)
