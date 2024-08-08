@@ -31,11 +31,11 @@ async function fromURL(url, email = "", password = "") {
   let collections = [];
   try {
     const { token } = await fetch(`${url}/api/admins/auth-with-password`, {
+      // @ts-ignore
       body: formData,
       method: "post"
     }).then((res) => {
-      if (!res.ok)
-        throw res;
+      if (!res.ok) throw res;
       return res.json();
     });
     const result = await fetch(`${url}/api/collections?perPage=200`, {
@@ -43,8 +43,7 @@ async function fromURL(url, email = "", password = "") {
         Authorization: token
       }
     }).then((res) => {
-      if (!res.ok)
-        throw res;
+      if (!res.ok) throw res;
       return res.json();
     });
     collections = result.items;
@@ -121,8 +120,7 @@ function getOptionEnumName(recordName, fieldName) {
 }
 function getOptionValues(field) {
   const values = field.options.values;
-  if (!values)
-    return [];
+  if (!values) return [];
   return values.filter((val, i) => values.indexOf(val) === i);
 }
 
@@ -163,8 +161,7 @@ function getGenericArgList(schema) {
 }
 function getGenericArgStringForRecord(schema) {
   const argList = getGenericArgList(schema);
-  if (argList.length === 0)
-    return "";
+  if (argList.length === 0) return "";
   return `<${argList.map((name) => `${name}`).join(", ")}>`;
 }
 function getGenericArgStringWithDefault(schema, opts) {
@@ -172,13 +169,13 @@ function getGenericArgStringWithDefault(schema, opts) {
   if (opts.includeExpand) {
     argList.push(fieldNameToGeneric(EXPAND_GENERIC_NAME));
   }
-  if (argList.length === 0)
-    return "";
+  if (argList.length === 0) return "";
   return `<${argList.map((name) => `${name} = unknown`).join(", ")}>`;
 }
 
 // src/fields.ts
 var pbSchemaTypescriptMap = {
+  // Basic fields
   bool: "boolean",
   date: DATE_STRING_TYPE_NAME,
   editor: HTML_STRING_NAME,
@@ -186,6 +183,7 @@ var pbSchemaTypescriptMap = {
   text: "string",
   url: "string",
   number: "number",
+  // Dependent on schema
   file: (fieldSchema) => fieldSchema.options.maxSelect && fieldSchema.options.maxSelect > 1 ? "string[]" : "string",
   json: (fieldSchema) => `null | ${fieldNameToGeneric(fieldSchema.name)}`,
   relation: (fieldSchema) => fieldSchema.options.maxSelect && fieldSchema.options.maxSelect === 1 ? RECORD_ID_STRING_NAME : `${RECORD_ID_STRING_NAME}[]`,
@@ -193,6 +191,7 @@ var pbSchemaTypescriptMap = {
     const valueType = fieldSchema.options.values ? getOptionEnumName(collectionName, fieldSchema.name) : "string";
     return fieldSchema.options.maxSelect && fieldSchema.options.maxSelect > 1 ? `${valueType}[]` : valueType;
   },
+  // DEPRECATED: PocketBase v0.8 does not have a dedicated user relation
   user: (fieldSchema) => fieldSchema.options.maxSelect && fieldSchema.options.maxSelect > 1 ? `${RECORD_ID_STRING_NAME}[]` : RECORD_ID_STRING_NAME
 };
 function createTypeField(collectionName, fieldSchema) {
@@ -232,8 +231,7 @@ function generate(results, options2) {
   const recordTypes = [];
   const responseTypes = [RESPONSE_TYPE_COMMENT];
   results.sort((a, b) => a.name <= b.name ? -1 : 1).forEach((row) => {
-    if (row.name)
-      collectionNames.push(row.name);
+    if (row.name) collectionNames.push(row.name);
     if (row.schema) {
       recordTypes.push(createRecordType(row.name, row.schema));
       responseTypes.push(createResponseType(row));
